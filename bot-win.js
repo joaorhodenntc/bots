@@ -62,14 +62,16 @@ async function analisarPartidas(){
                 const apFora = partidas[i].teamB.stats.attacks.d;
                 const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                 const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
+                const oddCasaAtual = partidas[i].odds.live['1X2'].bet365['1'];
+                const oddForaAtual = partidas[i].odds.live['1X2'].bet365['2'];
                 const placarCasa = partidas[i].teamA.score.f;
                 const placarFora = partidas[i].teamB.score.f;
                 if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarFora,idPartida,partidasNotificadas) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, partidasNotificadas)){
                     if(oddCasa < oddFora){
-                        mensagemIndicacao = "🏆Entrar em Win casa";
+                        mensagemIndicacao = "🏆Entrar em Win casa\n📊Odd Atual: " + oddCasaAtual;
                     } 
                     if(oddCasa > oddFora){
-                        mensagemIndicacao = "🏆Entrar em Win fora"
+                        mensagemIndicacao = "🏆Entrar em Win fora\n📊Odd Atual: " + oddForaAtual;
                     }
                     const nomeCasa = partidas[i].teamA.name;
                     const nomeFora = partidas[i].teamB.name;
