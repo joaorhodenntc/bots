@@ -50,9 +50,10 @@ async function analisarPartidas(){
                 const apFora = partidas[i].teamB.stats.attacks.d;
                 const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                 const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
-                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida)){
-                    const nomeCasa = partidas[i].teamA.name;
-                    const nomeFora = partidas[i].teamB.name;
+                const nomeCasa = partidas[i].teamA.name;
+                const nomeFora = partidas[i].teamB.name;
+                const regex = /\bWomen\b/i;
+                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa)){
                     const placarCasa = parseFloat(partidas[i].teamA.score.f);
                     const placarFora = parseFloat(partidas[i].teamB.score.f);
                     const placar = placarCasa + placarFora + 0.5;
