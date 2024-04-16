@@ -32,14 +32,14 @@ const options = {
   }
 };
 
-function casaFavoritoPressao(apCasa, apFora, oddCasa, placarCasa, placarFora, idPartida, partidasNotificadas){
-    if((oddCasa <= 1.45) && (apCasa>=45) && ((apFora + apFora)<=apCasa) && placarCasa==placarFora && !partidasNotificadas.has(idPartida)){
+function casaFavoritoPressao(apCasa, apFora, oddCasa, placarCasa, placarFora, idPartida, partidasNotificadas, oddCasaAtual){
+    if((oddCasa <= 1.45) && (apCasa>=45) && ((apFora + apFora)<=apCasa) && placarCasa==placarFora && !partidasNotificadas.has(idPartida) && oddCasaAtual>=1.50){
         return true;
     }
 }
 
-function foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, partidasNotificadas){
-    if((oddFora <= 1.45) && (apFora>=45) && ((apCasa + apCasa)<=apFora) && placarCasa==placarFora && !partidasNotificadas.has(idPartida)){
+function foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, partidasNotificadas, oddForaAtual){
+    if((oddFora <= 1.45) && (apFora>=45) && ((apCasa + apCasa)<=apFora) && placarCasa==placarFora && !partidasNotificadas.has(idPartida) && oddForaAtual>=1.50){
         return true;
     }
 }
@@ -66,12 +66,12 @@ async function analisarPartidas(){
                 const oddForaAtual = partidas[i].odds.live['1X2'].bet365['2'];
                 const placarCasa = partidas[i].teamA.score.f;
                 const placarFora = partidas[i].teamB.score.f;
-                if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarFora,idPartida,partidasNotificadas) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, partidasNotificadas)){
+                if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarFora,idPartida,partidasNotificadas,oddCasaAtual) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, partidasNotificadas, oddForaAtual)){
                     if(oddCasa < oddFora){
-                        mensagemIndicacao = "🏆Entrar em Win casa\n📊Odd Atual: " + oddCasaAtual;
+                        mensagemIndicacao = "🏆Entrar em Win casa (" + oddCasaAtual + ")";
                     } 
                     if(oddCasa > oddFora){
-                        mensagemIndicacao = "🏆Entrar em Win fora\n📊Odd Atual: " + oddForaAtual;
+                        mensagemIndicacao = "🏆Entrar em Win fora (" + oddForaAtual + ")";
                     }
                     const nomeCasa = partidas[i].teamA.name;
                     const nomeFora = partidas[i].teamB.name;
