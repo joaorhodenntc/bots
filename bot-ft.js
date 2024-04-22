@@ -2,6 +2,7 @@ const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 require('dotenv').config();
+const countryFlags = require('./countryFlags');
 
 const token = '6323285955:AAFYiFWnG0aLKmhxFD-orRu7KwmXhjJ7gUY'
 const chat_bot = '-1002011266973'
@@ -22,7 +23,7 @@ const options = {
   method: 'GET',
   url: 'https://soccer-football-info.p.rapidapi.com/live/full/',
   params: {
-    l: 'en_US',
+    l: 'pt_PT',
     f: 'json',
     e: 'no'
   },
@@ -46,18 +47,25 @@ async function analisarPartidas(){
             const idPartida = partidas[i].id;
             if(minutos>=65 && minutos<=77){
                 partidasEmAnalise.add(idPartida);
+                const nomeCamp = partidas[i].championship.name;
                 const apCasa = partidas[i].teamA.stats.attacks.d;
                 const apFora = partidas[i].teamB.stats.attacks.d;
                 const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                 const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
                 const nomeCasa = partidas[i].teamA.name;
                 const nomeFora = partidas[i].teamB.name;
+                const cantosCasa = partidas[i].teamA.stats.corners.t;
+                const cantosFora = partidas[i].teamB.stats.corners.t;
+                const chutesCasa = partidas[i].teamA.stats.shoots.t;
+                const chutesFora = partidas[i].teamB.stats.shoots.t;
+                const country = partidas[i].championship.country;
+                const flagCasa = countryFlags[country] || ""; 
                 const regex = /\bWomen\b/i;
                 if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa)){
                     const placarCasa = parseFloat(partidas[i].teamA.score.f);
                     const placarFora = parseFloat(partidas[i].teamB.score.f);
                     const placar = placarCasa + placarFora + 0.5;
-                    const mensagem = `*${nomeCasa}* vs *${nomeFora}*\n\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa >= 65 ? '*' + apCasa + '* 🔥' : apCasa} x ${apFora >= 65 ? '*' + apFora + '* 🔥' : apFora}\n📈 Odds Pré: ${oddCasa <= 1.40 ? oddCasa + ' 👑' : oddCasa} x ${oddFora <= 1.40 ? oddFora + ' 👑' : oddFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS*`;
+                    const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS*`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
                     console.log(mensagem);
                     partidasNotificadas.add(idPartida);
