@@ -2,6 +2,7 @@ const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 require('dotenv').config();
+const countryFlags = require('./countryFlags');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA'
 const chat_bot = '-1001682222531'
