@@ -94,7 +94,6 @@ bot.onText(/\/start/, (msg) => {
     totalStarts++;
     const userName = msg.from.username;
     bot.sendMessage(consoleId, `Nova conversa iniciado por: ${userName} \nCliques total: ${totalStarts}`);
-    msg.
     sendStartMessage(chatId);
   });
 
