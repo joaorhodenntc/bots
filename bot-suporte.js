@@ -7,6 +7,8 @@ const token = '6992531122:AAG7Lsyaz2h32rU0wYGv6CUHDwOGdWDt60U';
 // Cria um novo bot
 const bot = new TelegramBot(token, { polling: true});
 
+const consoleId = -1002109325363;
+
   function sendStartMessage(chatId) {
     bot.sendPhoto(chatId, 'main-image.png', {
       caption: `Jogador, aqui você terá acesso às melhores oportunidades e estratégias para te garantir maior lucro nas apostas esportivas!\n\nE o melhor... tudo de forma *gratuita!*😅\n\nVENHA COM A GENTE E VAMOS LUCRAR 👇`,
@@ -84,11 +86,15 @@ const bot = new TelegramBot(token, { polling: true});
   });
   
 
-
+  let totalStarts = 0;
 
 // Função para lidar com o comando /start
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
+    totalStarts++;
+    const userName = msg.from.username;
+    bot.sendMessage(consoleId, `Nova conversa iniciado por: ${userName} \nCliques total: ${totalStarts}`);
     sendStartMessage(chatId);
   });
 
+  
