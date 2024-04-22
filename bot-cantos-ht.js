@@ -2,6 +2,7 @@ const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 require('dotenv').config();
+const countryFlags = require('./countryFlags');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA'
 const chat_bot = '-1002002661890'
@@ -68,12 +69,17 @@ async function analisarPartidas(){
                 if(casaFavoritoPressao(apCasa, placarCasa, placarFora, idPartida, minutos, chutesCasa, partidasNotificadas) || foraFavoritoPressao(apFora, placarCasa, placarFora, idPartida, minutos, chutesFora, partidasNotificadas)){
                     const nomeCasa = partidas[i].teamA.name;
                     const nomeFora = partidas[i].teamB.name;
+                    const nomeCamp = partidas[i].championship.name;
                     const cantosCasa = partidas[i].teamA.stats.corners.t;
                     const cantosFora = partidas[i].teamB.stats.corners.t;
+                    const chutesCasa = partidas[i].teamA.stats.shoots.t;
+                    const chutesFora = partidas[i].teamB.stats.shoots.t;
+                    const country = partidas[i].championship.country;
+                    const flagCasa = countryFlags[country] || ""; 
                     const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                     const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
                     mensagemIndicacao = "🤖 Entrar em OVER CANTOS HT";
-                    const mensagem = `*${nomeCasa}* vs *${nomeFora}*\n\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa >= 45 ? '*' + apCasa + '* 🔥' : apCasa} x ${apFora >= 45 ? '*' + apFora + '* 🔥' : apFora}\n📈 Odds Pré: ${oddCasa <= 1.45 ? oddCasa + ' 👑' : oddCasa} x ${oddFora <= 1.45 ? oddFora + ' 👑' : oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n*${mensagemIndicacao}*`;
+                    const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n *${mensagemIndicacao}*`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
                     console.log(mensagem);
                     partidasNotificadas.add(idPartida);
