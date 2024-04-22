@@ -47,13 +47,13 @@ async function analisarPartidas(){
             const idPartida = partidas[i].id;
             if(minutos>=65 && minutos<=77){
                 partidasEmAnalise.add(idPartida);
-                const nomeCamp = partidas[i].championship.name;
                 const apCasa = partidas[i].teamA.stats.attacks.d;
                 const apFora = partidas[i].teamB.stats.attacks.d;
                 const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                 const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
                 const nomeCasa = partidas[i].teamA.name;
                 const nomeFora = partidas[i].teamB.name;
+                const nomeCamp = partidas[i].championship.name;
                 const cantosCasa = partidas[i].teamA.stats.corners.t;
                 const cantosFora = partidas[i].teamB.stats.corners.t;
                 const chutesCasa = partidas[i].teamA.stats.shoots.t;
