@@ -68,7 +68,14 @@ async function analisarPartidas(){
                 if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarCasa,idPartida,minutos,partidasNotificadas) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, minutos, partidasNotificadas)){
                     const nomeCasa = partidas[i].teamA.name;
                     const nomeFora = partidas[i].teamB.name;
-                    const mensagem = `*${nomeCasa}* vs *${nomeFora}*\n\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa >= 65 ? '*' + apCasa + '* 🔥' : apCasa} x ${apFora >= 65 ? '*' + apFora + '* 🔥' : apFora}\n📈 Odds Pré: ${oddCasa <= 1.40 ? oddCasa + ' 👑' : oddCasa} x ${oddFora <= 1.40 ? oddFora + ' 👑' : oddFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS HT*`;
+                    const nomeCamp = partidas[i].championship.name;
+                    const cantosCasa = partidas[i].teamA.stats.corners.t;
+                    const cantosFora = partidas[i].teamB.stats.corners.t;
+                    const chutesCasa = partidas[i].teamA.stats.shoots.t;
+                    const chutesFora = partidas[i].teamB.stats.shoots.t;
+                    const country = partidas[i].championship.country;
+                    const flagCasa = countryFlags[country] || ""; 
+                    const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS HT*`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
                     console.log(mensagem);
                     partidasNotificadas.add(idPartida);
