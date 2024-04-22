@@ -33,13 +33,13 @@ const options = {
 };
 
 function casaFavoritoPressao(apCasa, apFora, oddCasa, placarCasa, placarFora, idPartida, minutos, partidasNotificadas){
-    if((oddCasa <= 1.40) && ((apCasa/minutos)>=1) && (apCasa>apFora) && placarCasa<=placarFora && !partidasNotificadas.has(idPartida)){
+    if((oddCasa <= 1.40) && ((apCasa/minutos)>=1.20) && (apCasa>apFora) && placarCasa<=placarFora && !partidasNotificadas.has(idPartida)){
         return true;
     }
 }
 
 function foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, minutos, partidasNotificadas){
-    if((oddFora <= 1.40) && ((apFora/minutos)>=1) && (apFora>apCasa) && placarCasa>=placarFora && !partidasNotificadas.has(idPartida)){
+    if((oddFora <= 1.40) && ((apFora/minutos)>=1.20) && (apFora>apCasa) && placarCasa>=placarFora && !partidasNotificadas.has(idPartida)){
         return true;
     }
 }
