@@ -60,7 +60,7 @@ async function analisarPartidas(){
                 const chutesFora = partidas[i].teamB.stats.shoots.t;
                 const country = partidas[i].championship.country;
                 const flagCasa = countryFlags[country] || ""; 
-                const regex = /\bWomen\b/i;
+                const regex = /\b(Women|Feminino)\b/i;
                 if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa)){
                     const placarCasa = parseFloat(partidas[i].teamA.score.f);
                     const placarFora = parseFloat(partidas[i].teamB.score.f);
