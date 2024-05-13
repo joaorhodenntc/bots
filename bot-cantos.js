@@ -58,7 +58,7 @@ async function analisarPartidas(){
             const minutos = parseInt( partidas[i].timer.split(':')[0]);
             const idPartida = partidas[i].id;
             const hasMarket = partidas[i].odds.live.asian_corner;
-           if(minutos>=80 && minutos<=84 && hasMarket){
+           if(minutos>=82 && minutos<=84 && hasMarket){
                 partidasEmAnalise.add(idPartida);
                 const apCasa = partidas[i].teamA.stats.attacks.d;
                 const apFora = partidas[i].teamB.stats.attacks.d;
