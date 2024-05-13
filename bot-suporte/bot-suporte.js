@@ -18,6 +18,7 @@ function sendStartMessage(chatId) {
                 [{ text: 'COMO FUNCIONA', callback_data: 'como_funciona' }],
                 [{ text: 'PLANOS/VALORES', callback_data: 'planos' }],
                 [{ text: 'FALAR COM SUPORTE', url: 'https://t.me/SuporteBetSmart' }]
+                
             ]
         }
     });
@@ -37,8 +38,8 @@ bot.on('callback_query', (query) => {
     
     if (query.data === 'como_funciona') {
         // Enviar o vídeo explicativo
-        bot.sendVideo(chatId, 'video.MP4', {
-            caption: '*COMO FUNCIONA:*\n\nO Robô Over Gols FT, é um robô que alerta partidas com alta probabilidade de sair gols a partir dos 65 minutos do segundo tempo. Dentro de nossos parâmetros, estratégias criadas e pensadas com muito estudo, depois de realizados diversos testes para assim ser validado. \n\nO Robô tem uma assertividade surpreendente de 78%, sendo assim considerado o melhor Robô de Gols do mercado. ⭐️\n\n Possuindo uma odd média de 1.70 🤩',
+        bot.sendVideo(chatId, 'como-funciona.MP4', {
+            caption: '*BOT OVER FT 🤖 :*\n\nO Robô Over Gols FT, é um robô que alerta partidas com alta probabilidade de sair gols a partir dos 65 minutos do segundo tempo.\n\nO Robô tem uma assertividade surpreendente de 78%, sendo assim considerado o melhor Robô de Gols do mercado.⭐️\n\nPossuindo uma odd média de 1.70 📊\n\n*BOT OVER HT 🤖 :*\n\nO Robô Over Gols HT, é um robô que alerta partidas com alta probabilidade de sair gols no primeiro tempo.\n\nO Robô tem uma assertividade surpreendente de 75%.\n\nPossuindo uma odd média de 1.80 📊',
             parse_mode: 'Markdown',
             reply_markup: {
                 inline_keyboard: [
@@ -54,10 +55,12 @@ bot.on('callback_query', (query) => {
     } else if (query.data === 'planos') {
         // Enviar os planos e valores
         bot.sendPhoto(chatId, 'planos.png', {
-            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
+            caption: "Selecione o bot que você ficou interessado:", // Manter a legenda original
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: 'ADQUIRIR', url: 'https://pay.hub.la/w6NMOOYpWW184FvcEHNc'}],
+                    [{ text: 'BOT FT 🤖', callback_data: 'bot-ft-planos' }],
+                    [{ text: 'BOT HT 🤖', callback_data: 'bot-ht-planos' }],
+                    [{ text: 'COMBO (BOT FT + HT) 🤖', callback_data: 'combo-planos' }],
                     [{ text: '👈 Voltar', callback_data: 'start_message' }]
                 ]
             }
@@ -71,7 +74,52 @@ bot.on('callback_query', (query) => {
         sendStartMessage(chatId);
         // Excluir a mensagem atual para evitar duplicatas
         bot.deleteMessage(chatId, messageId);
-    }
+    } else if (query.data === 'bot-ft-planos') {
+        bot.sendPhoto(chatId, 'plano-bot-ft.png', {
+            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: 'ADQUIRIR AGORA', url: 'https://pay.hub.la/w6NMOOYpWW184FvcEHNc'}],
+                    [{ text: '👈 Voltar', callback_data: 'planos' }]
+                ]
+            }
+        }).then(sentMessage => {
+            // Excluir a mensagem original para evitar duplicatas
+            bot.deleteMessage(chatId, messageId);
+        }).catch(error => {
+            console.error('Erro ao enviar a nova mensagem:', error);
+        });
+    } else if (query.data === 'bot-ht-planos') {
+        bot.sendPhoto(chatId, 'plano-bot-ht.png', {
+            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: 'ADQUIRIR AGORA', url: 'https://pay.hub.la/oysQzbadaD3Ci4dyIJP6'}],
+                    [{ text: '👈 Voltar', callback_data: 'planos' }]
+                ]
+            }
+        }).then(sentMessage => {
+            // Excluir a mensagem original para evitar duplicatas
+            bot.deleteMessage(chatId, messageId);
+        }).catch(error => {
+            console.error('Erro ao enviar a nova mensagem:', error);
+        });
+    } else if (query.data === 'combo-planos') {
+        bot.sendPhoto(chatId, 'plano-combo.png', {
+            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: 'ADQUIRIR AGORA', url: 'https://pay.hub.la/dlz8Qe5QjKr0K5GbkhG3'}],
+                    [{ text: '👈 Voltar', callback_data: 'planos' }]
+                ]
+            }
+        }).then(sentMessage => {
+            // Excluir a mensagem original para evitar duplicatas
+            bot.deleteMessage(chatId, messageId);
+        }).catch(error => {
+            console.error('Erro ao enviar a nova mensagem:', error);
+        });
+    } 
 });
 
 // Restante do seu código...
