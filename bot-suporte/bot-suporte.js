@@ -38,7 +38,7 @@ bot.on('callback_query', (query) => {
     
     if (query.data === 'como_funciona') {
         // Enviar o vídeo explicativo
-        bot.sendVideo(chatId, 'como-funciona.MP4', {
+        bot.sendVideo(chatId, 'como-funciona.mp4', {
             caption: '*BOT OVER FT 🤖 :*\n\nO Robô Over Gols FT, é um robô que alerta partidas com alta probabilidade de sair gols a partir dos 65 minutos do segundo tempo.\n\nO Robô tem uma assertividade surpreendente de 78%, sendo assim considerado o melhor Robô de Gols do mercado.⭐️\n\nPossuindo uma odd média de 1.70 📊\n\n*BOT OVER HT 🤖 :*\n\nO Robô Over Gols HT, é um robô que alerta partidas com alta probabilidade de sair gols no primeiro tempo.\n\nO Robô tem uma assertividade surpreendente de 75%.\n\nPossuindo uma odd média de 1.80 📊',
             parse_mode: 'Markdown',
             reply_markup: {
