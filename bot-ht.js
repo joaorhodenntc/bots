@@ -79,6 +79,9 @@ async function analisarPartidas(){
                 const placarCasa = parseFloat(partidas[i].teamA.score.f);
                 const placarFora = parseFloat(partidas[i].teamB.score.f);
                 const placar = placarCasa + placarFora + 0.5;
+                const nomeCasa = partidas[i].teamA.name;
+                const nomeFora = partidas[i].teamB.name;
+
                 if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarCasa,idPartida,minutos,partidasNotificadas) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, minutos, partidasNotificadas)){
                     const response = await axios.request(options2);
                     const pegarLink = response.data;
@@ -96,8 +99,6 @@ async function analisarPartidas(){
                         }
                     }
 
-                    const nomeCasa = partidas[i].teamA.name;
-                    const nomeFora = partidas[i].teamB.name;
                     const nomeCamp = partidas[i].championship.name;
                     const cantosCasa = partidas[i].teamA.stats.corners.t;
                     const cantosFora = partidas[i].teamB.stats.corners.t;
