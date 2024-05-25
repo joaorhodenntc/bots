@@ -39,7 +39,7 @@ bot.on('callback_query', (query) => {
     if (query.data === 'como_funciona') {
         // Enviar o vídeo explicativo
         bot.sendVideo(chatId, 'como-funciona.mp4', {
-            caption: '*BOT OVER FT 🤖 :*\n\nO Robô Over Gols FT, é um robô que alerta partidas com alta probabilidade de sair gols a partir dos 65 minutos do segundo tempo.\n\nO Robô tem uma assertividade surpreendente de 78%, sendo assim considerado o melhor Robô de Gols do mercado.⭐️\n\nPossuindo uma odd média de 1.70 📊\n\n*BOT OVER HT 🤖 :*\n\nO Robô Over Gols HT, é um robô que alerta partidas com alta probabilidade de sair gols no primeiro tempo.\n\nO Robô tem uma assertividade surpreendente de 75%.\n\nPossuindo uma odd média de 1.80 📊',
+            caption: '*BOT OVER FT ⚽️:*\n\nO Robô Over Gols FT, é um robô que alerta partidas com alta probabilidade de sair gols a partir dos 65 minutos do segundo tempo.\n\nO Robô tem uma assertividade surpreendente de 78%, sendo assim considerado o melhor Robô de Gols do mercado.⭐️\n\nPossuindo uma odd média de 1.70 📊\n\n*BOT OVER HT ⚽️:*\n\nO Robô Over Gols HT, é um robô que alerta partidas com alta probabilidade de sair gols no primeiro tempo.\n\nO Robô tem uma assertividade surpreendente de 75%.\n\nPossuindo uma odd média de 1.80 📊\n\n*BOT CANTOS ⛳️:*\n\nO Robô de Escanteios, é um robô programado com os melhores critérios para sair escanteios ao final da partida.\n\nO robô tem uma assertividade absurda de 80%.\n\nPossuindo uma odd média 1.80 📊',
             parse_mode: 'Markdown',
             reply_markup: {
                 inline_keyboard: [
@@ -54,13 +54,14 @@ bot.on('callback_query', (query) => {
         });
     } else if (query.data === 'planos') {
         // Enviar os planos e valores
-        bot.sendPhoto(chatId, 'planos.png', {
+        bot.sendPhoto(chatId, 'planos.jpg', {
             caption: "Selecione o bot que você ficou interessado:", // Manter a legenda original
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: 'BOT FT 🤖', callback_data: 'bot-ft-planos' }],
-                    [{ text: 'BOT HT 🤖', callback_data: 'bot-ht-planos' }],
+                    [{ text: 'BOT HT ⚽️', callback_data: 'bot-ht-planos' }],
+                    [{ text: 'BOT FT ⚽️', callback_data: 'bot-ft-planos' }],
                     [{ text: 'COMBO (BOT FT + HT) 🤖', callback_data: 'combo-planos' }],
+                    [{ text: 'BOT CANTOS ⛳️', callback_data: 'bot-cantos-planos' }],
                     [{ text: '👈 Voltar', callback_data: 'start_message' }]
                 ]
             }
@@ -79,7 +80,7 @@ bot.on('callback_query', (query) => {
             caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA', url: 'https://pay.hub.la/w6NMOOYpWW184FvcEHNc'}],
+                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://pay.hub.la/w6NMOOYpWW184FvcEHNc'}],
                     [{ text: '👈 Voltar', callback_data: 'planos' }]
                 ]
             }
@@ -94,7 +95,7 @@ bot.on('callback_query', (query) => {
             caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA', url: 'https://pay.hub.la/oysQzbadaD3Ci4dyIJP6'}],
+                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://pay.hub.la/oysQzbadaD3Ci4dyIJP6'}],
                     [{ text: '👈 Voltar', callback_data: 'planos' }]
                 ]
             }
@@ -109,7 +110,22 @@ bot.on('callback_query', (query) => {
             caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA', url: 'https://pay.hub.la/dlz8Qe5QjKr0K5GbkhG3'}],
+                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://pay.hub.la/dlz8Qe5QjKr0K5GbkhG3'}],
+                    [{ text: '👈 Voltar', callback_data: 'planos' }]
+                ]
+            }
+        }).then(sentMessage => {
+            // Excluir a mensagem original para evitar duplicatas
+            bot.deleteMessage(chatId, messageId);
+        }).catch(error => {
+            console.error('Erro ao enviar a nova mensagem:', error);
+        });
+    } else if (query.data === 'bot-cantos-planos') {
+        bot.sendPhoto(chatId, 'plano-bot-canto.png', {
+            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://hub.la/r/RMlRNYH1AN9MVTTykkbQ'}],
                     [{ text: '👈 Voltar', callback_data: 'planos' }]
                 ]
             }
