@@ -4,14 +4,14 @@ const express = require('express');
 require('dotenv').config();
 const countryFlags = require('./countryFlags');
 
-const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA'
-const chat_bot = '-1002092180262'
+const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA';
+const chat_bot = '-1002092180262';
 const bot = new TelegramBot(token, { polling: false });
 const app = express();
 
 async function enviarMensagemTelegram(chat_id, mensagem) {
     try {
-        await bot.sendMessage(chat_id, mensagem, { parse_mode: 'Markdown' });
+        await bot.sendMessage(chat_id, mensagem, { parse_mode: 'Markdown', disable_web_page_preview: true});
     } catch (error) {
         console.error('Erro ao enviar mensagem para o Telegram:', error);
     }
@@ -32,6 +32,19 @@ const options = {
     'X-RapidAPI-Host': 'soccer-football-info.p.rapidapi.com'
   }
 };
+
+const options2 = {
+    method: 'GET',
+    url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sport_events/soccer',
+    headers: {
+      'X-RapidAPI-Key': 'ec9f6be1b4msh3f0cd9c45ea88f7p158ae3jsn75a7db046302',
+      'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
+    }
+  };
+
+  function removerAcentuacao(texto) {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
 
 function casaFavoritoPressao(apCasa, placarCasa, placarFora, idPartida, minutos, chutesCasa, partidasNotificadas){
     if((apCasa/minutos>= 1.20) && (placarCasa==placarFora || (placarFora - placarCasa)==1) && chutesCasa>=15 &&!partidasNotificadas.has(idPartida)){
@@ -78,8 +91,25 @@ async function analisarPartidas(){
                     const flagCasa = countryFlags[country] || ""; 
                     const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                     const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
+
+                    const response = await axios.request(options2);
+                    const pegarLink = response.data;
+                    var link = '';
+
+                    for(let i = 0;  i < pegarLink.length; i++){
+                        try{
+                            if(removerAcentuacao(nomeCasa) == removerAcentuacao(pegarLink[i].team1) || removerAcentuacao(nomeFora) == removerAcentuacao(pegarLink[i].team2)){
+                                link = pegarLink[i].evLink;
+                                break;
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            break;
+                        }
+                    }
+
                     mensagemIndicacao = "🤖 Entrar em OVER CANTOS";
-                    const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n *${mensagemIndicacao}*`;
+                    const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n *${mensagemIndicacao}*${link ? `\n\n[${link}](${link})` : ''}`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
                     console.log(mensagem);
                     partidasNotificadas.add(idPartida);
