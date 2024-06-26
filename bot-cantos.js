@@ -47,13 +47,13 @@ const options2 = {
 }
 
 function casaFavoritoPressao(apCasa, placarCasa, placarFora, idPartida, minutos, chutesCasa, partidasNotificadas){
-    if((apCasa/minutos>= 1.20) && (placarCasa==placarFora || (placarFora - placarCasa)==1) && chutesCasa>=15 &&!partidasNotificadas.has(idPartida)){
+    if((apCasa/minutos>= 1.20) && (placarCasa==placarFora || (placarFora - placarCasa)==1) && chutesCasa>=10 &&!partidasNotificadas.has(idPartida)){
         return true
     }
 }
 
 function foraFavoritoPressao(apFora, placarCasa, placarFora, idPartida, minutos, chutesFora, partidasNotificadas){
-    if((apFora/minutos>= 1.20) && (placarCasa==placarFora || (placarCasa - placarFora)==1) && chutesFora>=15 &&!partidasNotificadas.has(idPartida)){
+    if((apFora/minutos>= 1.20) && (placarCasa==placarFora || (placarCasa - placarFora)==1) && chutesFora>=10 &&!partidasNotificadas.has(idPartida)){
         return true
     }
 }
