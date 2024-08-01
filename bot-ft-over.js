@@ -4,8 +4,8 @@ const express = require('express');
 require('dotenv').config();
 const countryFlags = require('./countryFlags');
 
-const token = '7161793207:AAEwG-jvltm14_cml55-MfeZVl9vesrIcd8'
-const chat_bot = '-1002112809144'
+const token = '6323285955:AAFYiFWnG0aLKmhxFD-orRu7KwmXhjJ7gUY'
+const chat_bot = '-1002011266973'
 const bot = new TelegramBot(token, { polling: false });
 const app = express();
 
@@ -87,7 +87,7 @@ async function analisarPartidas(){
                 const linhaAtual = partidas[i].ou_odds[2];
                 const oddOver = partidas[i].ou_odds[0];
 
-                if((apCasa/minutos>=1 || apFora/minutos>=1) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
+                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
 
                     let link = '';
 
