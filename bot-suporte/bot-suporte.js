@@ -60,8 +60,9 @@ bot.on('callback_query', (query) => {
                 inline_keyboard: [
                     [{ text: 'BOT HT ⚽️', callback_data: 'bot-ht-planos' }],
                     [{ text: 'BOT FT ⚽️', callback_data: 'bot-ft-planos' }],
-                    [{ text: 'COMBO (BOT FT + HT) 🤖', callback_data: 'combo-planos' }],
                     [{ text: 'BOT CANTOS ⛳️', callback_data: 'bot-cantos-planos' }],
+                    [{ text: 'COMBO (BOT FT + HT) 🤖', callback_data: 'combo-planos' }],
+                    [{ text: 'COMBO TODOS BOTS 🤖', callback_data: 'combo-todos' }],
                     [{ text: '👈 Voltar', callback_data: 'start_message' }]
                 ]
             }
@@ -135,7 +136,22 @@ bot.on('callback_query', (query) => {
         }).catch(error => {
             console.error('Erro ao enviar a nova mensagem:', error);
         });
-    } 
+    } else if (query.data === 'combo-todos') {
+        bot.sendPhoto(chatId, 'plano-todos.png', {
+            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://hub.la/r/WrTndhTBnleylvXLm4y2'}],
+                    [{ text: '👈 Voltar', callback_data: 'planos' }]
+                ]
+            }
+        }).then(sentMessage => {
+            // Excluir a mensagem original para evitar duplicatas
+            bot.deleteMessage(chatId, messageId);
+        }).catch(error => {
+            console.error('Erro ao enviar a nova mensagem:', error);
+        });
+    }
 });
 
 // Restante do seu código...
