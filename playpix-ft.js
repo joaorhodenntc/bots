@@ -1,6 +1,5 @@
 const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
-const express = require('express');
 require('dotenv').config();
 const countryFlags = require('./countryFlags');
 const getMatchLink = require('./getMatchLink');
@@ -74,7 +73,7 @@ async function analisarPartidas(){
                 const linhaAtual = partidas[i].ou_odds[2];
                 const oddOver = partidas[i].ou_odds[0];
 
-                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=11.40 || oddFora <=11.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
+                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=91.40 || oddFora <=91.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
 
                     const link = await getMatchLink(nomeCasa, nomeFora);
                     

@@ -33,13 +33,13 @@ const options = {
 };
 
 function casaFavoritoPressao(apCasa, apFora, oddCasa, placarCasa, placarFora, idPartida, minutos, partidasNotificadas){
-    if((oddCasa <= 11.40) && ((apCasa/minutos)>=1) && (apCasa>apFora) && placarCasa<=placarFora && !partidasNotificadas.has(idPartida)){
+    if((oddCasa <= 91.40) && ((apCasa/minutos)>=1) && (apCasa>apFora) && placarCasa<=placarFora && !partidasNotificadas.has(idPartida)){
         return true;
     }
 }
 
 function foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, minutos, partidasNotificadas){
-    if((oddFora <= 11.40) && ((apFora/minutos)>=1) && (apFora>apCasa) && placarCasa>=placarFora && !partidasNotificadas.has(idPartida)){
+    if((oddFora <= 91.40) && ((apFora/minutos)>=1) && (apFora>apCasa) && placarCasa>=placarFora && !partidasNotificadas.has(idPartida)){
         return true;
     }
 }
@@ -72,6 +72,9 @@ async function analisarPartidas(){
 
                     const link = await getMatchLink(nomeCasa, nomeFora);
 
+                    // if (!link) {
+                    //     continue;
+                    // }
 
                     const nomeCamp = partidas[i].championship.name;
                     const cantosCasa = partidas[i].teamA.stats.corners.t;
