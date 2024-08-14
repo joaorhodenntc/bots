@@ -14,28 +14,32 @@ function extrairNomePrincipal(nomeTime) {
 }
 
 async function getMatchLink(homeTeam, awayTeam) {
-    const browser = await puppeteer.launch({ 
-        headless: false,
-        args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--disable-gpu',
-        '--single-process',
-        ] ,
-    });
-    const page = await browser.newPage();
-
+    let browser;
     try {
+        // Configurações para rodar o Puppeteer em ambientes com poucos recursos
+        browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--no-first-run',
+                '--no-zygote',
+                '--disable-gpu',
+                '--single-process',
+            ],
+            timeout: 120000 // Aumenta o timeout para lidar com possíveis atrasos na VM
+        });
+
+        const page = await browser.newPage();
+
         // Acessa o site
         await page.goto('https://www.playpix.com/pb/sports/live/event-view', {
-            waitUntil: 'networkidle0',
+            waitUntil: 'networkidle2', // Aguarda até que não haja mais de 2 requisições de rede
             timeout: 120000
         });
-        
+
         // Espera o input de busca estar disponível na página
         await page.waitForSelector('input.ss-input-bc', { timeout: 30000 });
 
@@ -72,16 +76,15 @@ async function getMatchLink(homeTeam, awayTeam) {
         await page.waitForNavigation();
 
         const currentUrl = page.url();
-        
-        const mobileCurrentUrl = currentUrl.replace('www.', 'm.');
-
         return currentUrl;
 
     } catch (error) {
         console.error('Erro ao obter o link da partida:', error);
         return null;
     } finally {
-        await browser.close();
+        if (browser) {
+            await browser.close();
+        }
     }
 }
 
