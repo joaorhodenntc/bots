@@ -29,16 +29,12 @@ async function getMatchLink(homeTeam, awayTeam) {
                 '--disable-gpu',
                 '--single-process',
             ],
-            timeout: 120000 // Aumenta o timeout para lidar com possíveis atrasos na VM
         });
 
         const page = await browser.newPage();
 
         // Acessa o site
-        await page.goto('https://www.playpix.com/pb/sports/live/event-view', {
-            waitUntil: 'networkidle2', // Aguarda até que não haja mais de 2 requisições de rede
-            timeout: 120000
-        });
+        await page.goto('https://www.playpix.com/pb/sports/live/event-view');
 
         // Espera o input de busca estar disponível na página
         await page.waitForSelector('input.ss-input-bc', { timeout: 30000 });
