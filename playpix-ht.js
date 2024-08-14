@@ -33,13 +33,13 @@ const options = {
 };
 
 function casaFavoritoPressao(apCasa, apFora, oddCasa, placarCasa, placarFora, idPartida, minutos, partidasNotificadas){
-    if((oddCasa <= 91.40) && ((apCasa/minutos)>=1) && (apCasa>apFora) && placarCasa<=placarFora && !partidasNotificadas.has(idPartida)){
+    if((oddCasa <= 91.40) && ((apCasa/minutos)>=0.5) && (apCasa>apFora) && placarCasa<=placarFora && !partidasNotificadas.has(idPartida)){
         return true;
     }
 }
 
 function foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, minutos, partidasNotificadas){
-    if((oddFora <= 91.40) && ((apFora/minutos)>=1) && (apFora>apCasa) && placarCasa>=placarFora && !partidasNotificadas.has(idPartida)){
+    if((oddFora <= 91.40) && ((apFora/minutos)>=0.5) && (apFora>apCasa) && placarCasa>=placarFora && !partidasNotificadas.has(idPartida)){
         return true;
     }
 }
@@ -105,8 +105,8 @@ async function iniciar() {
     }
 }
 
-//setInterval(iniciar, 60000);
+setInterval(iniciar, 60000);
 
-iniciar();
+
 
 
