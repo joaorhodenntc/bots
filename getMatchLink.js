@@ -15,7 +15,7 @@ function extrairNomePrincipal(nomeTime) {
 
 async function getMatchLink(homeTeam, awayTeam) {
     const browser = await puppeteer.launch({ 
-        headless: 'new', 
+        headless: false,
         args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -23,15 +23,19 @@ async function getMatchLink(homeTeam, awayTeam) {
         '--disable-accelerated-2d-canvas',
         '--no-first-run',
         '--no-zygote',
-        '--disable-gpu'
+        '--disable-gpu',
+        '--single-process',
         ] ,
     });
     const page = await browser.newPage();
 
     try {
         // Acessa o site
-        await page.goto('https://www.playpix.com/pb/sports/live/event-view');
-
+        await page.goto('https://www.playpix.com/pb/sports/live/event-view', {
+            waitUntil: 'networkidle0',
+            timeout: 120000
+        });
+        
         // Espera o input de busca estar disponível na página
         await page.waitForSelector('input.ss-input-bc', { timeout: 30000 });
 
