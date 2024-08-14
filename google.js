@@ -14,8 +14,9 @@ function extrairNomePrincipal(nomeTime) {
 }
 
 async function getMatchLink(homeTeam, awayTeam) {
+    let browser
     try {
-        const browser  = await puppeteer.launch({
+            browser  = await puppeteer.launch({
             headless: 'new',
             args: [
                 '--no-sandbox',
@@ -76,7 +77,9 @@ async function getMatchLink(homeTeam, awayTeam) {
         console.error('Erro ao obter o link da partida:', error);
         return null;
     } finally {
-        await browser.close();
+        if (browser) {
+            await browser.close();
+        }
     }
 }
 
