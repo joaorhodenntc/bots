@@ -10,7 +10,7 @@ function extrairNomePrincipal(nomeTime) {
         }
     }
 
-    return maiorPalavra;
+    return maiorPalavra.toLowerCase();
 }
 
 async function getMatchLink(homeTeam, awayTeam) {
@@ -53,7 +53,7 @@ async function getMatchLink(homeTeam, awayTeam) {
             const results = document.querySelectorAll('li.sport-search-result-item-bc');
             for (const result of results) {
                 const textContent = result.textContent || "";
-                const textContentNormalized = removerAcentos(textContent);
+                const textContentNormalized = removerAcentos(textContent.toLowerCase());
                 if (textContentNormalized.includes(removerAcentos(homeTeamNormalized)) && textContentNormalized.includes(removerAcentos(awayTeamNormalized))) {
                     result.click();
                     return document.location.href;
@@ -84,4 +84,4 @@ async function getMatchLink(homeTeam, awayTeam) {
 }
 
 
-getMatchLink('Belgrano Reserves', 'Deportivo Riestra Reserves');
+getMatchLink('Enppi','Al Ahly Cairo');
