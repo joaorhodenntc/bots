@@ -76,9 +76,7 @@ async function getMatchLink(homeTeam, awayTeam) {
         console.error('Erro ao obter o link da partida:', error);
         return null;
     } finally {
-        if (browser) {
-            await browser.close();
-        }
+        await browser.close();
     }
 }
 
