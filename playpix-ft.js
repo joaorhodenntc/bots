@@ -73,7 +73,7 @@ async function analisarPartidas(){
                 const linhaAtual = partidas[i].ou_odds[2];
                 const oddOver = partidas[i].ou_odds[0];
 
-                if((apCasa/minutos>=0.5 || apFora/minutos>=0.5) && (oddCasa<=91.40 || oddFora <=91.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
+                if((apCasa/minutos>=0.3 || apFora/minutos>=0.3) && (oddCasa<=91.40 || oddFora <=91.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
 
                     const link = await getMatchLink(nomeCasa, nomeFora);
                     
@@ -100,4 +100,6 @@ async function iniciar() {
     }
 }
 
-setInterval(iniciar, 60000);
+//setInterval(iniciar, 60000);
+
+iniciar();
