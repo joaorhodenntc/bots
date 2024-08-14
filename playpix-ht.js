@@ -105,6 +105,8 @@ async function iniciar() {
     }
 }
 
-setInterval(iniciar, 60000);
+//setInterval(iniciar, 60000);
+
+iniciar();
 
 
