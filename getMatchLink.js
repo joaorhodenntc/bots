@@ -41,8 +41,11 @@ async function getMatchLink(homeTeam, awayTeam) {
         const awayTeamNormalized = extrairNomePrincipal(awayTeam);
         await page.type('input.ss-input-bc', homeTeamNormalized);
 
-        // Espera até que os resultados estejam visíveis na página
-        await page.waitForSelector('li.sport-search-result-item-bc', { timeout: 60000 });
+        try {
+            await page.waitForSelector('li.sport-search-result-item-bc', { timeout: 60000 });
+        } catch (error) {
+            console.log("Partida não encontrada", extrairNomePrincipal(homeTeam),"x",extrairNomePrincipal(awayTeam));
+        }
 
         // Busca o resultado correspondente ao nome do time
         const link = await page.evaluate((homeTeamNormalized, awayTeamNormalized) => {
@@ -63,7 +66,6 @@ async function getMatchLink(homeTeam, awayTeam) {
         }, homeTeamNormalized, awayTeamNormalized);
 
         if (!link) {
-            console.log('Partida não encontrada.');
             return null;
         }
 
