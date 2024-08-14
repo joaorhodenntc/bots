@@ -14,8 +14,9 @@ function extrairNomePrincipal(nomeTime) {
 }
 
 async function getMatchLink(homeTeam, awayTeam) {
+    let browser
     try {
-        const browser  = await puppeteer.launch({
+        browser  = await puppeteer.launch({
             headless: 'new',
             args: [
                 '--no-sandbox',
