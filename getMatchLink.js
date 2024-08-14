@@ -14,11 +14,9 @@ function extrairNomePrincipal(nomeTime) {
 }
 
 async function getMatchLink(homeTeam, awayTeam) {
-    let browser;
     try {
-        // Configurações para rodar o Puppeteer em ambientes com poucos recursos
-        browser = await puppeteer.launch({
-            headless: true,
+        const browser  = await puppeteer.launch({
+            headless: 'new',
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -27,7 +25,6 @@ async function getMatchLink(homeTeam, awayTeam) {
                 '--no-first-run',
                 '--no-zygote',
                 '--disable-gpu',
-                '--single-process',
             ],
         });
 
