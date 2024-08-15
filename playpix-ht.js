@@ -2,7 +2,7 @@ const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config();
 const countryFlags = require('./countryFlags');
-const getMatchLink = require('./getMatchLink');
+const obterUrlPlayPix = require('./obterUrlPlayPix');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA';
 const chat_bot = '-1001682222531';
@@ -70,7 +70,7 @@ async function analisarPartidas(){
 
                 if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarCasa,idPartida,minutos,partidasNotificadas) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, minutos, partidasNotificadas)){
 
-                    const link = await getMatchLink(nomeCasa, nomeFora);
+                    const link = await obterUrlPlayPix(nomeCasa, nomeFora);
 
                     // if (!link) {
                     //     continue;
@@ -106,7 +106,6 @@ async function iniciar() {
 }
 
 setInterval(iniciar, 60000);
-
 
 
 

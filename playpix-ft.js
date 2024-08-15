@@ -2,7 +2,7 @@ const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config();
 const countryFlags = require('./countryFlags');
-const getMatchLink = require('./getMatchLink');
+const obterUrlPlayPix = require('./obterUrlPlayPix');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA';
 const chat_bot = '-1001682222531';
@@ -75,7 +75,7 @@ async function analisarPartidas(){
 
                 if((apCasa/minutos>=0.5 || apFora/minutos>=0.5) && (oddCasa<=91.40 || oddFora <=91.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
 
-                    const link = await getMatchLink(nomeCasa, nomeFora);
+                    const link = await obterUrlPlayPix(nomeCasa, nomeFora);
                     
                     const placar = placarCasa + placarFora + 0.5;
                     const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flag}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS*${link ? `\n\n[👉 Acessar Partida (PlayPix)](${link})` : ''}`;
@@ -101,5 +101,6 @@ async function iniciar() {
 }
 
 setInterval(iniciar, 60000);
+
 
 
