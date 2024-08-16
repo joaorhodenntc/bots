@@ -62,7 +62,7 @@ async function obterUrlPlayPix(timeCasa, timeFora) {
                                 const team2NameFormatado = formatarNome(team2NameNormalizado);
 
                                 const url = `https://playpix.com/pb/sports/live/event-view/Soccer/${aliasRegiao}/${competicaoId}/${nomeCompeticao}/${jogoId}/${team1NameFormatado}-${team2NameFormatado}`;
-                                console.log(url);
+                                return url;
                             }
                         }
                     }
@@ -75,7 +75,5 @@ async function obterUrlPlayPix(timeCasa, timeFora) {
         return null;
     }
 }
-
-obterUrlPlayPix("Feniks-pro", "Izumrud-pro");
 
 module.exports = obterUrlPlayPix;
