@@ -1,11 +1,32 @@
-const { url } = require('inspector');
 const TelegramBot = require('node-telegram-bot-api');
+const fs = require('fs');
+const path = require('path');
 
 // Substitua 'TOKEN' pelo token de acesso que você recebeu do BotFather
 const token = '6992531122:AAG7Lsyaz2h32rU0wYGv6CUHDwOGdWDt60U';
 
 // Cria um novo bot
 const bot = new TelegramBot(token, { polling: true });
+
+// Caminho para o arquivo que armazenará os IDs dos usuários
+const userIdsFile = path.join(__dirname, 'userIds.json');
+
+// Função para carregar IDs dos usuários do arquivo
+function loadUserIds() {
+    if (fs.existsSync(userIdsFile)) {
+        const data = fs.readFileSync(userIdsFile, 'utf8');
+        return JSON.parse(data);
+    }
+    return [];
+}
+
+// Função para salvar IDs dos usuários no arquivo
+function saveUserIds(userIds) {
+    fs.writeFileSync(userIdsFile, JSON.stringify(userIds, null, 2));
+}
+
+// Carregar IDs ao iniciar o bot
+let userIds = loadUserIds();
 
 const consoleId = -1002109325363;
 
@@ -27,9 +48,16 @@ function sendStartMessage(chatId) {
 // Função para lidar com o comando /start
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
+    const userId = msg.from.id;
     const userName = msg.from.username;
     bot.sendMessage(consoleId, `Nova conversa iniciada por: ${userName}`);
     sendStartMessage(chatId);
+
+    // Verifique se o ID já está na lista, se não, adicione
+    if (!userIds.includes(userId)) {
+        userIds.push(userId);
+        saveUserIds(userIds); // Salvar IDs no arquivo
+    }
 });
 
 bot.on('callback_query', (query) => {
