@@ -77,3 +77,6 @@ async function obterUrlPlayPix(timeCasa, timeFora) {
 }
 
 module.exports = obterUrlPlayPix;
+
+
+//Verificar quando tiver mais de 1 jogo com as mesmas equipe, retornar o jogo que começou antes
