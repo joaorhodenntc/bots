@@ -37,7 +37,7 @@ async function sendWelcomeMessages(userId, userName) {
 
     await new Promise(resolve => setTimeout(resolve, 5000));
 
-    await bot.sendMessage(userId, `${userName}, <b>preciso de apenas 3 favores seu:</b>`, { parse_mode: "HTML" });
+    await bot.sendMessage(userId, `${userName}, <b>preciso de apenas 3 favores:</b>`, { parse_mode: "HTML" });
 
     await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -57,7 +57,7 @@ async function sendWelcomeMessages(userId, userName) {
 
     await new Promise(resolve => setTimeout(resolve, 5000));
 
-    await bot.sendMessage(userId, `➡️ <b>2º PASSO:</b>\n\n<b><u>Deposite qualquer valor</u></b> e me enviar o comprovante do depósito aqui, que eu já libero seu acesso 👇`, {
+    await bot.sendMessage(userId, `➡️ <b>2º PASSO:</b>\n\n<b><u>Deposite qualquer valor</u></b> e me envie o comprovante do depósito aqui, que eu já libero seu acesso 👇`, {
         parse_mode: 'HTML',
         reply_markup: {
             inline_keyboard: [
@@ -73,7 +73,7 @@ async function sendWelcomeMessages(userId, userName) {
 
     await new Promise(resolve => setTimeout(resolve, 5000));
 
-    await bot.sendMessage(userId, `➡️ <b>3º PASSO:</b>\n\nMe envia o comprovante do depósito tocando no botão abaixo 👇`, {
+    await bot.sendMessage(userId, `➡️ <b>3º PASSO:</b>\n\nMe envie o comprovante do depósito tocando no botão abaixo 👇`, {
         parse_mode: 'HTML',
         reply_markup: {
             inline_keyboard: [
@@ -93,7 +93,8 @@ async function sendWelcomeMessages(userId, userName) {
 
     await new Promise(resolve => setTimeout(resolve, 5000));
 
-    await bot.sendMessage(userId, `Envio comprovante🧾: @SuporteBetSmart `, { parse_mode: "HTML" });
+    await bot.sendMessage(userId, `<b>Envio do comprovante:</b> @SuporteBetSmart`, { parse_mode: "HTML" });
+
 }
 
 
