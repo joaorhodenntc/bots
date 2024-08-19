@@ -5,7 +5,7 @@ const countryFlags = require('./countryFlags');
 const obterUrlPlayPix = require('./obterUrlPlayPix');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA';
-const chat_bot = '-1001682222531';
+const chat_bot = '-1002216083194';
 const bot = new TelegramBot(token, { polling: false });
 
 async function enviarMensagemTelegram(chat_id, mensagem) {
