@@ -72,9 +72,9 @@ async function analisarPartidas(){
 
                     const link = await obterUrlPlayPix(nomeCasa, nomeFora);
 
-                    // if (!link) {
-                    //     continue;
-                    // }
+                    if (!link) {
+                        continue;
+                    }
 
                     const nomeCamp = partidas[i].championship.name;
                     const cantosCasa = partidas[i].teamA.stats.corners.t;
