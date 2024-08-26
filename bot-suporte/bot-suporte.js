@@ -30,6 +30,27 @@ let userIds = loadUserIds();
 
 const consoleId = -1002109325363;
 
+bot.on('chat_join_request', (msg) => {
+    const userId = msg.from.id;
+    const chatId = msg.chat.id;
+
+    if (!userIds.includes(userId)) {
+        userIds.push(userId);
+        saveUserIds(userIds); 
+    }
+
+    // Aceitar a solicitação de adesão
+    bot.approveChatJoinRequest(chatId, userId)
+        .then(() => {
+            console.log(`Solicitação de ${msg.from.username} foi aceita.`);
+            bot.sendMessage(consoleId, `Nova conversa iniciada por: ${msg.from.username}`);
+            sendStartMessage(userId);
+        })
+        .catch((error) => {
+            console.error(`Erro ao aceitar solicitação: ${error}`);
+        });
+});
+
 function sendStartMessage(chatId) {
     bot.sendPhoto(chatId, 'main-image.png', {
         caption: `Jogador, aqui você terá acesso às melhores oportunidades e estratégias para te garantir maior lucro nas apostas esportivas!\n\n*VENHA COM A GENTE E VAMOS LUCRAR 👇*`,
