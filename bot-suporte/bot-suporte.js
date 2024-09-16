@@ -104,14 +104,9 @@ bot.on('callback_query', (query) => {
     } else if (query.data === 'planos') {
         // Enviar os planos e valores
         bot.sendPhoto(chatId, 'planos.jpg', {
-            caption: "Selecione o bot que você ficou interessado:", // Manter a legenda original
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: 'BOT HT ⚽️', callback_data: 'bot-ht-planos' }],
-                    [{ text: 'BOT FT ⚽️', callback_data: 'bot-ft-planos' }],
-                    [{ text: 'BOT CANTOS ⛳️', callback_data: 'bot-cantos-planos' }],
-                    [{ text: 'COMBO (BOT FT + HT) 🤖', callback_data: 'combo-planos' }],
-                    [{ text: 'COMBO TODOS BOTS 🤖', callback_data: 'combo-todos' }],
+                    [{ text: 'Verificar Planos/Valores ✅', url: 'https://hub.la/betsmart'}],
                     [{ text: '👈 Voltar', callback_data: 'start_message' }]
                 ]
             }
@@ -125,82 +120,7 @@ bot.on('callback_query', (query) => {
         sendStartMessage(chatId);
         // Excluir a mensagem atual para evitar duplicatas
         bot.deleteMessage(chatId, messageId);
-    } else if (query.data === 'bot-ft-planos') {
-        bot.sendPhoto(chatId, 'plano-bot-ft.png', {
-            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://pay.hub.la/w6NMOOYpWW184FvcEHNc'}],
-                    [{ text: '👈 Voltar', callback_data: 'planos' }]
-                ]
-            }
-        }).then(sentMessage => {
-            // Excluir a mensagem original para evitar duplicatas
-            bot.deleteMessage(chatId, messageId);
-        }).catch(error => {
-            console.error('Erro ao enviar a nova mensagem:', error);
-        });
-    } else if (query.data === 'bot-ht-planos') {
-        bot.sendPhoto(chatId, 'plano-bot-ht.png', {
-            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://pay.hub.la/oysQzbadaD3Ci4dyIJP6'}],
-                    [{ text: '👈 Voltar', callback_data: 'planos' }]
-                ]
-            }
-        }).then(sentMessage => {
-            // Excluir a mensagem original para evitar duplicatas
-            bot.deleteMessage(chatId, messageId);
-        }).catch(error => {
-            console.error('Erro ao enviar a nova mensagem:', error);
-        });
-    } else if (query.data === 'combo-planos') {
-        bot.sendPhoto(chatId, 'plano-combo.png', {
-            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://pay.hub.la/dlz8Qe5QjKr0K5GbkhG3'}],
-                    [{ text: '👈 Voltar', callback_data: 'planos' }]
-                ]
-            }
-        }).then(sentMessage => {
-            // Excluir a mensagem original para evitar duplicatas
-            bot.deleteMessage(chatId, messageId);
-        }).catch(error => {
-            console.error('Erro ao enviar a nova mensagem:', error);
-        });
-    } else if (query.data === 'bot-cantos-planos') {
-        bot.sendPhoto(chatId, 'plano-bot-canto.png', {
-            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://hub.la/r/RMlRNYH1AN9MVTTykkbQ'}],
-                    [{ text: '👈 Voltar', callback_data: 'planos' }]
-                ]
-            }
-        }).then(sentMessage => {
-            // Excluir a mensagem original para evitar duplicatas
-            bot.deleteMessage(chatId, messageId);
-        }).catch(error => {
-            console.error('Erro ao enviar a nova mensagem:', error);
-        });
-    } else if (query.data === 'combo-todos') {
-        bot.sendPhoto(chatId, 'plano-todos.png', {
-            caption: "Clicar no link para consultar outros tipos de planos.", // Manter a legenda original
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: 'ADQUIRIR AGORA ✅', url: 'https://hub.la/r/WrTndhTBnleylvXLm4y2'}],
-                    [{ text: '👈 Voltar', callback_data: 'planos' }]
-                ]
-            }
-        }).then(sentMessage => {
-            // Excluir a mensagem original para evitar duplicatas
-            bot.deleteMessage(chatId, messageId);
-        }).catch(error => {
-            console.error('Erro ao enviar a nova mensagem:', error);
-        });
-    }
+    } 
 });
 
 // Restante do seu código...
