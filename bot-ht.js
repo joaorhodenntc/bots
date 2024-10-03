@@ -121,7 +121,6 @@ async function analisarPartidas(){
 
 async function iniciar() {
     try {
-        await enviarMensagemTelegram(chat_testeGratis,'Olá');
         await analisarPartidas();
         console.log("Ao vivo: " + qtdPartidas + "\nAnalisando: " + partidasEmAnalise.size + "\nPartidas Notificadas: ["+ [...partidasNotificadas].join(", ")+"]");
     } catch (error) {
