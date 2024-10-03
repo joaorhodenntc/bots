@@ -1,13 +1,12 @@
 const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
-const express = require('express');
 require('dotenv').config();
 const countryFlags = require('./countryFlags');
 
 const token = '6323285955:AAFYiFWnG0aLKmhxFD-orRu7KwmXhjJ7gUY'
 const chat_bot = '-1002011266973'
+const chat_testeGratis = '-1002348807186';
 const bot = new TelegramBot(token, { polling: false });
-const app = express();
 
 async function enviarMensagemTelegram(chat_id, mensagem) {
     try {
@@ -87,6 +86,8 @@ async function analisarPartidas(){
                 const linhaAtual = partidas[i].ou_odds[2];
                 const oddOver = partidas[i].ou_odds[0];
 
+                
+
                 if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
 
                     let link = '';
@@ -108,6 +109,7 @@ async function analisarPartidas(){
                     const placar = placarCasa + placarFora + 0.5;
                     const mensagem = `*🤖 BETSMART*\n\n*${nomeCasa}* vs *${nomeFora} ${flag}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS*${link ? `\n\n[${link}](${link})` : ''}`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
+                    await enviarMensagemTelegram(chat_testeGratis,mensagem);
                     partidasNotificadas.add(idPartida);
                 }
             } else {
@@ -127,5 +129,7 @@ async function iniciar() {
         console.log(error)
     }
 }
+
+iniciar();
 
 setInterval(iniciar, 60000);

@@ -1,13 +1,12 @@
 const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
-const express = require('express');
 require('dotenv').config();
 const countryFlags = require('./countryFlags');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA';
 const chat_bot = '-1002077623281';
+const chat_testeGratis = '-1002344980360';
 const bot = new TelegramBot(token, { polling: false });
-const app = express();
 
 async function enviarMensagemTelegram(chat_id, mensagem) {
     try {
@@ -108,6 +107,7 @@ async function analisarPartidas(){
                     const flagCasa = countryFlags[country] || ""; 
                     const mensagem = `*🤖 BETSMART*\n\n*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS HT*${link ? `\n\n[${link}](${link})` : ''}`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
+                    await enviarMensagemTelegram(chat_testeGratis,mensagem);
                     partidasNotificadas.add(idPartida);
                 }
             } else {
@@ -121,6 +121,7 @@ async function analisarPartidas(){
 
 async function iniciar() {
     try {
+        await enviarMensagemTelegram(chat_testeGratis,'Olá');
         await analisarPartidas();
         console.log("Ao vivo: " + qtdPartidas + "\nAnalisando: " + partidasEmAnalise.size + "\nPartidas Notificadas: ["+ [...partidasNotificadas].join(", ")+"]");
     } catch (error) {
@@ -128,18 +129,7 @@ async function iniciar() {
     }
 }
 
+iniciar();
+
 setInterval(iniciar, 60000);
 
-const port = process.env.PORT || 3003; 
-
-app.get('/ht', (req, res) => {
-    res.send("<b>BOT HT</b><br>"+ " 🚨 "+ qtdPartidas + " Jogos ao vivo<br>"+" 🤖 Analisando " + partidasEmAnalise.size + " Partidas<br>" + " 💾 Partidas Notificadas: ["+ [...partidasNotificadas].join(", ")+"]");
-});
-
-app.get('/ht/aovivo', (req, res) => {
-    res.send([...partidasEmAnalise]);  
-});
-
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
