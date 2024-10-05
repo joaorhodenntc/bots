@@ -43,7 +43,7 @@ async function analisarPartidas(){
         for(let i=0; i<qtdPartidas; i++){
             const minutos = parseInt( partidas[i].timer.split(':')[0]);
             const idPartida = partidas[i].id;
-            if(minutos>=82 && minutos<=86){
+            if(minutos>=22 && minutos<=86){
                 partidasEmAnalise.add(idPartida);
                 const apCasa = partidas[i].teamA.stats.attacks.d;
                 const apFora = partidas[i].teamB.stats.attacks.d;
@@ -67,14 +67,17 @@ async function analisarPartidas(){
                 const flagCasa = countryFlags[country] || ""; 
                 const regex = /\b(Women|Feminino)\b/i;
 
-                if((apCasa<50 && apFora<50) && (cantosTotal<=6) && (placarTotal<4) && (chutesTotal<=12) &&!partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && cartoesVermelhoCasa==0 && cartoesVermelhoFora==0){
-                    const nomeCasaSemEspacos = nomeCasa.replace(/\s+/g, '%20');
-                    const link = `https://www.bet365.com/#/AX/K%5E${nomeCasaSemEspacos}%20`;
-                    const placar = placarCasa + placarFora + 0.5;
-                    const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em UNDER ${placar} GOLS*\n\n${link}`;
-                    await enviarMensagemTelegram(chat_bot,mensagem);
-                    partidasNotificadas.add(idPartida);
+                if(apCasa!=null && apFora!=null){
+                    if((apCasa<50 && apFora<50) && (cantosTotal<=6) && (placarTotal<4) && (chutesTotal<=12) &&!partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && cartoesVermelhoCasa==cartoesVermelhoFora){
+                        const nomeCasaSemEspacos = nomeCasa.replace(/\s+/g, '%20');
+                        const link = `https://www.bet365.com/#/AX/K%5E${nomeCasaSemEspacos}%20`;
+                        const placar = placarCasa + placarFora + 0.5;
+                        const mensagem = `*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em UNDER ${placar} GOLS*\n\n${link}`;
+                        await enviarMensagemTelegram(chat_bot,mensagem);
+                        partidasNotificadas.add(idPartida);
+                    }
                 }
+
             } else {
                 partidasEmAnalise.delete(idPartida);
             }
