@@ -54,6 +54,8 @@ async function analisarPartidas(){
                 const nomeCamp = partidas[i].championship.name;
                 const cantosCasa = Number(partidas[i].teamA.stats.corners.t);
                 const cantosFora = Number(partidas[i].teamB.stats.corners.t);
+                const cartoesVermelhoCasa = Number(partidas[i].teamA.stats.fouls.r_c);
+                const cartoesVermelhoFora = Number(partidas[i].teamB.stats.fouls.r_c);
                 const cantosTotal = cantosCasa + cantosFora;
                 const chutesCasa = Number(partidas[i].teamA.stats.shoots.t);
                 const chutesFora = Number(partidas[i].teamA.stats.shoots.t);
@@ -64,7 +66,8 @@ async function analisarPartidas(){
                 const country = partidas[i].championship.country;
                 const flagCasa = countryFlags[country] || ""; 
                 const regex = /\b(Women|Feminino)\b/i;
-                if((apCasa/minutos<=0.5 || apFora/minutos<=0.5) && (cantosTotal<=6) && (placarTotal<4) && (chutesTotal<=12) &&!partidasNotificadas.has(idPartida) && !regex.test(nomeCasa)){
+
+                if((apCasa<50 && apFora<50) && (cantosTotal<=6) && (placarTotal<4) && (chutesTotal<=12) &&!partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && cartoesVermelhoCasa==0 && cartoesVermelhoFora==0){
                     const nomeCasaSemEspacos = nomeCasa.replace(/\s+/g, '%20');
                     const link = `https://www.bet365.com/#/AX/K%5E${nomeCasaSemEspacos}%20`;
                     const placar = placarCasa + placarFora + 0.5;
