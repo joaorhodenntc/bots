@@ -109,7 +109,6 @@ async function analisarPartidas(){
                     const placar = placarCasa + placarFora + 0.5;
                     const mensagem = `*🤖 BETSMART*\n\n*${nomeCasa}* vs *${nomeFora} ${flag}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS*${link ? `\n\n[${link}](${link})` : ''}`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
-                    await enviarMensagemTelegram(chat_testeGratis,mensagem);
                     partidasNotificadas.add(idPartida);
                 }
             } else {
