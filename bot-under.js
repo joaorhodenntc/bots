@@ -58,7 +58,7 @@ async function analisarPartidas(){
                 const cartoesVermelhoFora = Number(partidas[i].teamB.stats.fouls.r_c);
                 const cantosTotal = cantosCasa + cantosFora;
                 const chutesCasa = Number(partidas[i].teamA.stats.shoots.t);
-                const chutesFora = Number(partidas[i].teamA.stats.shoots.t);
+                const chutesFora = Number(partidas[i].teamB.stats.shoots.t);
                 const chutesTotal = parseInt(chutesCasa+chutesFora);
                 const placarCasa = parseFloat(partidas[i].teamA.score.f);
                 const placarFora = parseFloat(partidas[i].teamB.score.f);
