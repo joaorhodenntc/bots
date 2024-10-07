@@ -5,7 +5,7 @@ const countryFlags = require('./countryFlags');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA';
 const chat_bot = '-1002077623281';
-const chat_testeGratis = '-1002344980360';
+const chat_reserva= '-1002263290488';
 const bot = new TelegramBot(token, { polling: false });
 
 async function enviarMensagemTelegram(chat_id, mensagem) {
@@ -107,7 +107,7 @@ async function analisarPartidas(){
                     const flagCasa = countryFlags[country] || ""; 
                     const mensagem = `*🤖 BETSMART*\n\n*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS HT*${link ? `\n\n[${link}](${link})` : ''}`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
-                    await enviarMensagemTelegram(chat_testeGratis,mensagem);
+                    await enviarMensagemTelegram(chat_reserva,mensagem);
                     partidasNotificadas.add(idPartida);
                 }
             } else {
