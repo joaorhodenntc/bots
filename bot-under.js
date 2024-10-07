@@ -43,7 +43,7 @@ async function analisarPartidas(){
         for(let i=0; i<qtdPartidas; i++){
             const minutos = parseInt( partidas[i].timer.split(':')[0]);
             const idPartida = partidas[i].id;
-            if(minutos>=22 && minutos<=86){
+            if(minutos>=82 && minutos<=86){
                 partidasEmAnalise.add(idPartida);
                 const apCasa = partidas[i].teamA.stats.attacks.d;
                 const apFora = partidas[i].teamB.stats.attacks.d;
