@@ -44,6 +44,18 @@ function removerAcentuacao(texto) {
     return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+function pressaoCasa(apCasa, placarCasa, placarFora){
+    if(apCasa>=80 && placarFora>=placarCasa){
+        return true;
+    }
+}
+
+function pressaoFora(apFora, placarCasa, placarFora){
+    if(apFora>=80 && placarCasa>=placarFora){
+        return true;
+    }
+}
+
 const partidasEmAnalise = new Set();
 const partidasNotificadas = new Set();
 var qtdPartidas = 0;
@@ -88,7 +100,7 @@ async function analisarPartidas(){
 
                 
 
-                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
+                if((pressaoCasa(apCasa,placarCasa,placarFora) || pressaoFora(apFora, placarCasa, placarFora)) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida) && !regex.test(nomeCasa) && linhaAtual <= somaPlacar && oddOver>=1.800){
 
                     let link = '';
 
