@@ -158,10 +158,10 @@ async function verificarResultado(){
             if(resultado.status == 'BREAK'){
                 if(placarFinal>value.placar){
                     await editarMensagemTelegram(chat_bot, value.messageId, `*🤖 BETSMART*\n\n*${value.nomeCasa}* vs *${value.nomeFora} ${value.flagCasa}*\n\n🏟 Competição: ${value.nomeCamp}\n⚽ Placar: ${value.placarCasa} x ${value.placarFora}\n⚔️ Ataques Perigosos: ${value.apCasa} x ${value.apFora}\n🥅 Finalizações: ${value.chutesCasa} x ${value.chutesFora}\n📈 Odds Pré: ${value.oddCasa} x ${value.oddFora}\n⛳️ Cantos: ${value.cantosCasa} x ${value.cantosFora}\n🕛 Tempo: ${value.minutos}\n\n🤖 *Entrar em OVER ${value.placar} GOLS HT*\n\n✅`);
-                    partidasNotificadasOver.delete(idPartida);
+                    partidasNotificadas.delete(idPartida);
                 } else {
                     await editarMensagemTelegram(chat_bot, value.messageId, `*🤖 BETSMART*\n\n*${value.nomeCasa}* vs *${value.nomeFora} ${value.flagCasa}*\n\n🏟 Competição: ${value.nomeCamp}\n⚽ Placar: ${value.placarCasa} x ${value.placarFora}\n⚔️ Ataques Perigosos: ${value.apCasa} x ${value.apFora}\n🥅 Finalizações: ${value.chutesCasa} x ${value.chutesFora}\n📈 Odds Pré: ${value.oddCasa} x ${value.oddFora}\n⛳️ Cantos: ${value.cantosCasa} x ${value.cantosFora}\n🕛 Tempo: ${value.minutos}\n\n🤖 *Entrar em OVER ${value.placar} GOLS HT*\n\n❌`);
-                    partidasNotificadasOver.delete(idPartida);
+                    partidasNotificadas.delete(idPartida);
                 }
             }
 

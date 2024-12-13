@@ -5,14 +5,22 @@ const countryFlags = require('./countryFlags');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA';
 const chat_bot = '-1002092180262';
-const chat_testeGratis = '-1002390752282';
 const bot = new TelegramBot(token, { polling: false });
 
 async function enviarMensagemTelegram(chat_id, mensagem) {
     try {
-        await bot.sendMessage(chat_id, mensagem, { parse_mode: 'Markdown', disable_web_page_preview: true});
+        const sentMessage = await bot.sendMessage(chat_id, mensagem, { parse_mode: 'Markdown', disable_web_page_preview: true});
+        return sentMessage.message_id;
     } catch (error) {
         console.error('Erro ao enviar mensagem para o Telegram:', error);
+    }
+}
+
+async function editarMensagemTelegram(chat_id, message_id, novaMensagem) {
+    try {
+        await bot.editMessageText(novaMensagem, { chat_id, message_id, parse_mode: 'Markdown' });
+    } catch (error) {
+        console.error('Erro ao editar mensagem no Telegram:', error);
     }
 }
 
@@ -41,6 +49,23 @@ const options2 = {
     }
   };
 
+function getMatchDetails(matchId) {
+    const results = {
+    method: 'GET',
+    url: 'https://soccer-football-info.p.rapidapi.com/matches/view/full/',
+    params: {
+        i: matchId,
+        l: 'en_US'
+    },
+    headers: {
+        'x-rapidapi-key': '4a87053b30mshad9163ef45410adp17c4dbjsn0d469d135af5',
+        'x-rapidapi-host': 'soccer-football-info.p.rapidapi.com'
+    }
+    };
+
+    return axios.request(results);
+}
+
   function removerAcentuacao(texto) {
     return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
@@ -58,7 +83,7 @@ function foraFavoritoPressao(apFora, placarCasa, placarFora, idPartida, minutos,
 }
 
 const partidasEmAnalise = new Set();
-const partidasNotificadas = new Set();
+const partidasNotificadas = new Map();
 var qtdPartidas = 0;
 
 async function analisarPartidas(){
@@ -91,27 +116,27 @@ async function analisarPartidas(){
                     const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                     const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
 
-                    const response = await axios.request(options2);
-                    const pegarLink = response.data;
-                    var link = '';
+                    const nomeCasaSemEspacos = nomeCasa.replace(/\s+/g, '%20');
+                    link = `https://www.bet365.com/#/AX/K%5E${nomeCasaSemEspacos}%20`;
 
-                    for(let i = 0;  i < pegarLink.length; i++){
-                        try{
+                    try{
+                        const response = await axios.request(options2);
+                        const pegarLink = response.data;
+                        
+                        for(let i = 0;  i < pegarLink.length; i++){
                             if(removerAcentuacao(nomeCasa) == removerAcentuacao(pegarLink[i].team1) || removerAcentuacao(nomeFora) == removerAcentuacao(pegarLink[i].team2)){
                                 link = pegarLink[i].evLink;
                                 break;
-                            }
-                        } catch (error) {
-                            console.log(error);
-                            break;
-                        }
+                            } 
+                    }
+                    } catch (error) {
+                        console.log(error);
                     }
 
                     mensagemIndicacao = "🤖 Entrar em OVER CANTOS";
                     const mensagem = `*🤖 BETSMART*\n\n*${nomeCasa}* vs *${nomeFora} ${flagCasa}*\n\n🏟 Competição: ${nomeCamp}\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa} x ${apFora}\n🥅 Finalizações: ${chutesCasa} x ${chutesFora}\n📈 Odds Pré: ${oddCasa} x ${oddFora}\n⛳️ Cantos: ${cantosCasa} x ${cantosFora}\n🕛 Tempo: ${minutos}\n\n *${mensagemIndicacao}*${link ? `\n\n[${link}](${link})` : ''}`;
-                    await enviarMensagemTelegram(chat_bot,mensagem);
-                    //await enviarMensagemTelegram(chat_testeGratis,mensagem);
-                    partidasNotificadas.add(idPartida);
+                    const messageId = await enviarMensagemTelegram(chat_bot,mensagem);
+                    partidasNotificadas.set(idPartida, {messageId,nomeCasa, nomeFora, flagCasa, nomeCamp, placarCasa, placarFora, apCasa, apFora, oddCasa, oddFora, cantosCasa, cantosFora, chutesCasa, chutesFora, minutos, mensagemIndicacao});
                 }
             } else {
                 partidasEmAnalise.delete(idPartida);
@@ -122,10 +147,37 @@ async function analisarPartidas(){
     }
 }
 
+async function verificarResultado(){
+    for (const [idPartida, value] of partidasNotificadas.entries()) {
+        try {
+            const response = await getMatchDetails(idPartida); 
+            const resultado = response.data.result[0];
+            const cantosCasa = parseFloat(resultado.teamA.stats.corners.t);
+            const cantosFora = parseFloat(resultado.teamB.stats.corners.t);
+            const cantosTotal = cantosCasa + cantosFora;
+            const cantos = parseFloat(value.cantosCasa) + parseFloat(value.cantosFora); 
+            
+            if(resultado.status == 'BREAK'){
+                if(cantosTotal>cantos){
+                    await editarMensagemTelegram(chat_bot, value.messageId, `*🤖 BETSMART*\n\n*${value.nomeCasa}* vs *${value.nomeFora} ${value.flagCasa}*\n\n🏟 Competição: ${value.nomeCamp}\n⚽ Placar: ${value.placarCasa} x ${value.placarFora}\n⚔️ Ataques Perigosos: ${value.apCasa} x ${value.apFora}\n🥅 Finalizações: ${value.chutesCasa} x ${value.chutesFora}\n📈 Odds Pré: ${value.oddCasa} x ${value.oddFora}\n⛳️ Cantos: ${value.cantosCasa} x ${value.cantosFora}\n🕛 Tempo: ${value.minutos}\n\n*${value.mensagemIndicacao}*\n\n✅`);
+                    partidasNotificadas.delete(idPartida);
+                } else {
+                    await editarMensagemTelegram(chat_bot, value.messageId, `*🤖 BETSMART*\n\n*${value.nomeCasa}* vs *${value.nomeFora} ${value.flagCasa}*\n\n🏟 Competição: ${value.nomeCamp}\n⚽ Placar: ${value.placarCasa} x ${value.placarFora}\n⚔️ Ataques Perigosos: ${value.apCasa} x ${value.apFora}\n🥅 Finalizações: ${value.chutesCasa} x ${value.chutesFora}\n📈 Odds Pré: ${value.oddCasa} x ${value.oddFora}\n⛳️ Cantos: ${value.cantosCasa} x ${value.cantosFora}\n🕛 Tempo: ${value.minutos}\n\n*${value.mensagemIndicacao}*\n\n❌`);
+                    partidasNotificadas.delete(idPartida);
+                }
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 async function iniciar() {
     try {
         await analisarPartidas();
-        console.log("Ao vivo: " + qtdPartidas + "\nAnalisando: " + partidasEmAnalise.size + "\nPartidas Notificadas: ["+ [...partidasNotificadas].join(", ")+"]");
+        await verificarResultado();
+        console.log("Ao vivo: " + qtdPartidas + ", Analisando: " + partidasEmAnalise.size);
     } catch (error) {
         console.log(error)
     }
