@@ -157,7 +157,7 @@ async function verificarResultado(){
             const cantosTotal = cantosCasa + cantosFora;
             const cantos = parseFloat(value.cantosCasa) + parseFloat(value.cantosFora); 
             
-            if(resultado.status == 'BREAK'){
+            if(resultado.status == 'ENDED'){
                 if(cantosTotal>cantos){
                     await editarMensagemTelegram(chat_bot, value.messageId, `*🤖 BETSMART*\n\n*${value.nomeCasa}* vs *${value.nomeFora} ${value.flagCasa}*\n\n🏟 Competição: ${value.nomeCamp}\n⚽ Placar: ${value.placarCasa} x ${value.placarFora}\n⚔️ Ataques Perigosos: ${value.apCasa} x ${value.apFora}\n🥅 Finalizações: ${value.chutesCasa} x ${value.chutesFora}\n📈 Odds Pré: ${value.oddCasa} x ${value.oddFora}\n⛳️ Cantos: ${value.cantosCasa} x ${value.cantosFora}\n🕛 Tempo: ${value.minutos}\n\n*${value.mensagemIndicacao}*\n\n✅`);
                     partidasNotificadas.delete(idPartida);
